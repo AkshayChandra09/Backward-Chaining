@@ -1,27 +1,36 @@
 #include <iostream>
 #include <stack>
 #include<vector>
+#include <string>
+#include <string.h>
 #include "data_structures.h"
 
 using namespace std;
 
 void initialize_lists();
-int conclusion_search(int,string str);
+int conclusion_search(int,string);
 void update_variable_list(int rule);
-string evaluate_then_part(int rule);
+void evaluate_then_part(int rule);
 void check_var_list(string var_to_check);
+void iterate(int);
 
 ConclusionList conc_list[5];
 VariableList var_list[9];
 NewRules rules[4];
-ClauseVarList clause_vars[17];
+ClauseVarList clause_vars[21];
+bool rule_found();
 
-vector<int> stack_rule_no;
-vector<int> stack_pointer;
+stack<int> cn_stack;
+stack<int> sn_stack;
 
-int sn;
+int sn,i;
 int cn;
+int pos;
+int var_in_clause_list = 1;
+string conclusion;
+int case_no=-1;
 
+void backward_chaining(int sn, string conclusion);
 
 //----------------------------- Main ------------------------------------------------
 int main()
@@ -31,49 +40,78 @@ int main()
         initialize_lists();
     cout<<endl<<"***************************************************************"<<endl;
 
-    string conclusion;
+
     cout<<"Please Enter The Conclusion: ";
     cin>>conclusion;
 
 
-    //1.calculate clause no and then place 2.if that conclusion not found display message
-    //initially search from the begining
-    sn = conclusion_search(0,conclusion);
-    stack_rule_no.push_back(sn);
-    if(sn==-1)
-    {
-        cout<<"No such conclusion exists.."<<endl;
-    }
-    cn = 4 * (sn/10-1) + 1;
-    stack_pointer.push_back(cn);
-    cout<<"Cn: "<<cn<<endl;
-    int var_in_clause_list = 1;
-    do{
-        //check if variable is instantiated
-        string var_to_check = clause_vars[cn].get_clause_vars();
-        check_var_list(var_to_check);
-        cout<<endl;
-     // if(var_list[cn].get
-        cn++;
-        var_in_clause_list++;
-    }while(clause_vars[cn].get_clause_vars()!= "" && var_in_clause_list<4);
+    pos=0;
+
+        sn = conclusion_search(pos,conclusion);
+
+        if(sn==-1){
+            cout<<"Conclusion Not Found.."<<endl;
+            return 0;
+        }
 
 
-   /* //initializing variable list
-        update_variable_list(sn);
+        else
+            backward_chaining(sn, conclusion);
 
-    //evaluate then part
-    string var=evaluate_then_part(sn);
-    if(var != "fails")
-    {
-        cout<<"Conclusion: "<<var<<" = yes"<<endl;
-    }
-*/
+            while(conc_list[pos].get_conclusion_value()=="" && pos<6){
+                pos++;sn_stack.pop(); cn_stack.pop();
+                sn = conclusion_search(pos,conclusion);
+                backward_chaining(sn, conclusion);
+            }
+
+     while(!sn_stack.empty()){
+        int con_no;
+        switch(sn_stack.top()){
+             case 10: con_no = 0; break;
+             case 20: con_no = 1; break;
+             case 30: con_no = 2; break;
+             case 40: con_no = 3; break;
+             case 50: con_no = 4; break;
+        }
+        if(conc_list[con_no].get_conclusion_value()!=""){
+            cout<<endl<<"********************************************************"<<endl;
+            cout<<"The Conclusion is: "<<endl;
+            cout<<"Evaluated Rule: "<<sn_stack.top()<<endl;
+            cout<<"Result: "<<conc_list[con_no].get_conclusion()<<" = "<< conc_list[con_no].get_conclusion_value()<<endl;
+        }
+
+        sn_stack.pop(); cn_stack.pop();
+     }
+
 
     return 0;
 }
 
 
+
+void backward_chaining(int sn, string conclusion)
+{
+    sn_stack.push(sn);
+    cn = 4 * (sn/10-1) + 1;
+    cn_stack.push(cn);
+
+    int var_in_clause_list = 1;
+    do{
+        string var_to_check = clause_vars[cn].get_clause_vars();
+        int new_sn = conclusion_search(pos, var_to_check);
+
+        if(new_sn!=-1){
+            pos++;
+            backward_chaining(new_sn, var_to_check);
+        }
+        check_var_list(var_to_check);
+        cout<<endl;
+        cn++;
+        var_in_clause_list++;
+    }while(var_in_clause_list<5 && clause_vars[cn].get_clause_vars()!="");
+
+    evaluate_then_part(sn);
+}
 
 void check_var_list(string var_to_check)
 {
@@ -93,171 +131,62 @@ void check_var_list(string var_to_check)
     }
 }
 
-/*
-void update_variable_list(int rule)
-{
-    switch(rule)
-    {
-        case 10:if(!var_list[0].getStatus())
-                {
-                    string ans1;
-                    cout<<"Shortness of Breath? yes/no: ";
-                    cin>>ans1;
-                    var_list[0].set("short_breath",ans1);
-                    var_list[0].setStatus(1);
-                }
-                if(!var_list[1].getStatus())
-                {
-                    string ans2;
-                    cout<<"Chronic Cough? yes/no: ";
-                    cin>>ans2;
-                    var_list[1].set("chronic_cough",ans2);
-                    var_list[1].setStatus(1);
-                }
-                if(!var_list[2].getStatus())
-                {
-                    string ans3;
-                    cout<<"Cough of Blood? yes/no: ";
-                    cin>>ans3;
-                    var_list[2].set("cough_blood",ans3);
-                    var_list[2].setStatus(1);
-                }
-                break;
-
-        case 20:if(!var_list[3].getStatus())
-                {
-                    for(int i=0;i<4;i++)
-                    {
-                        if(var_list[3].getVarName() == conc_list[i].get_conclusion())
-                        {
-                            update_variable_list(10);
-                            evaluate_then_part(10);
-                            break;
-                        }
-                    }
-                }
-
-                if(!var_list[4].getStatus())
-                {
-                    string ans2;
-                    cout<<"Recurrent Pneunomia? yes/no: ";
-                    cin>>ans2;
-                    var_list[4].set("recurrent_pneunomia",ans2);
-                    var_list[4].setStatus(1);
-                }
-                break;
-
-        case 30:if(!var_list[3].getStatus())
-                {
-                    for(int i=0;i<4;i++)
-                    {
-                        if(var_list[3].getVarName() == conc_list[i].get_conclusion())
-                        {
-                            update_variable_list(10);
-                            evaluate_then_part(10);
-                            break;
-                        }
-                    }
-                }
-
-                if(!var_list[5].getStatus())
-                {
-                    string ans2;
-                    cout<<"Shoulder Pain? yes/no: ";
-                    cin>>ans2;
-                    var_list[5].set("shoulder_pain",ans2);
-                    var_list[5].setStatus(1);
-                }
-                break;
-
-        case 40:if(!var_list[3].getStatus())
-                {
-                    for(int i=0;i<4;i++)
-                    {
-                        if(var_list[3].getVarName() == conc_list[i].get_conclusion())
-                        {
-                            update_variable_list(10);
-                            evaluate_then_part(10);
-                            break;
-                        }
-                    }
-                }
-
-                if(!var_list[6].getStatus())
-                {
-                    string ans2;
-                    cout<<"Achiness in Back Shoulder? yes/no: ";
-                    cin>>ans2;
-                    var_list[6].set("achiness_back_shoulder",ans2);
-                    var_list[6].setStatus(1);
-                }
-                break;
-    }
-}
-*/
-
-string evaluate_then_part(int rule)
-{
-        switch(rule)
-        {
-            case 10:    if(var_list[0].getValue() == "yes" && var_list[1].getValue() == "yes" && var_list[2].getValue() == "yes")
-                        {
-                            conc_list[0].set_value("yes");
-                            //string var = conc_list[0].get_conclusion() + " = yes";
-                            return conc_list[0].get_conclusion();
-                        }
-                        break;
-
-            case 20:    if(var_list[0].getValue() == "yes" &&  var_list[3].getValue() == "yes")
-                        {
-                            conc_list[1].set_value("yes");
-                            return conc_list[1].get_conclusion();
-                        }
-                        break;
-
-            case 30:    if(var_list[0].getValue() == "yes" && var_list[4].getValue() == "yes")
-                        {
-                            conc_list[2].set_value("yes");
-                            return conc_list[2].get_conclusion();
-                        }
-                        break;
-
-            case 40:    if(var_list[0].getValue() == "no" &&  var_list[5].getValue() == "yes")
-                        {
-                          conc_list[3].set_value("yes");
-                            return conc_list[3].get_conclusion();
-                        }
-                        break;
-
-           /* case 50:    if(var1 == "no" && var_list[5].getValue() == "yes" && var_list[6].getValue() == "yes" && var_list[7].getValue() == "yes")
-                        {
-                            conc_list[4].set_value("yes");
-                            return conclusion;
-                        }
-                        break;
-
-            case 60:    if(var_list[0].getValue() == "yes" && var_list[1].getValue() == "yes" && var_list[2].getValue() == "no")
-                        {
-                            conc_list[0].set_value("no");
-                            return conclusion;
-                        }
-                        break; */
-        }
-        return "fail";
-}
-
-
-int conclusion_search(int pos, string str)
+int conclusion_search(int pos, string var)
 {
     for(int i=pos;i<5;i++)
     {
-        if(str == conc_list[i].get_conclusion())
+        if(var == conc_list[i].get_conclusion())
         {
             return conc_list[i].get_rule();
         }
     }
     return -1;
 }
+
+
+void evaluate_then_part(int rule)
+{
+        switch(rule)
+        {
+            case 10:    if(var_list[0].getValue() == "yes" && var_list[1].getValue() == "yes" && var_list[2].getValue() == "yes")
+                        {
+                            conc_list[0].set_value("yes");
+                            case_no = 0;
+                        }else{conc_list[0].set_value("no");};
+                        break;
+
+            case 20:   if(conc_list[0].get_conclusion_value() == "yes" &&  var_list[3].getValue() == "yes")
+                        {
+                            conc_list[1].set_value("large_cell_neuroma");
+                            case_no = 1;
+                        }
+                        break;
+
+           case 30:    if(conc_list[0].get_conclusion_value() == "yes" && var_list[4].getValue() == "yes")
+                        {
+                            conc_list[2].set_value("squanors_cell_carcinoma");
+                            case_no = 2;
+                        }
+                         break;
+
+            case 40:    if(conc_list[0].get_conclusion_value() == "no" &&  var_list[5].getValue() == "yes")
+                        {
+                            conc_list[3].set_value("large_cell_carcinoma");
+                            case_no = 3;
+                        }
+                        break;
+
+            case 50:    if(conc_list[0].get_conclusion_value() == "no" && var_list[5].getValue() == "no" && var_list[6].getValue() == "yes" && var_list[7].getValue() == "yes")
+                        {
+                            conc_list[4].set_value("adeno_carcinome");
+                            case_no = 4;
+                        }
+                        break;
+
+        }
+}
+
+
 
 
 void initialize_lists()
@@ -284,8 +213,10 @@ void initialize_lists()
     conc_list[1].set_rule(20,"lung_cancer");
     conc_list[2].set_rule(30,"lung_cancer");
     conc_list[3].set_rule(40,"lung_cancer");
+    conc_list[4].set_rule(50,"lung_cancer");
 
-    for(int i=0;i<4;i++)
+
+    for(int i=0;i<5;i++)
     {
         conc_list[i].print_rule();
         cout<<"\n";
@@ -325,11 +256,11 @@ void initialize_lists()
     clause_vars[14].set_vars(14,"achiness_back_shoulder");
     clause_vars[15].set_vars(15,"");
     clause_vars[16].set_vars(16,"");
-   /* clause_vars[17].set_vars(17,"wheezing");
+    clause_vars[17].set_vars(17,"wheezing");
     clause_vars[18].set_vars(18,"achiness_back_shoulder");
     clause_vars[19].set_vars(19,"chest_pain");
-    clause_vars[20].set_vars(20,"fatigue");*/
-    for(int i = 0 ; i < 16;i++)
+    clause_vars[20].set_vars(20,"fatigue");
+    for(int i = 0 ; i < 21;i++)
     {
 		clause_vars[i].print_clause_vars();
 		cout<<endl;

@@ -1,3 +1,5 @@
+#ifndef DATA_STRUCTURES_H_INCLUDED
+#define DATA_STRUCTURES_H_INCLUDED
 #include <iostream>
 using namespace std;
 //--------------------------- Rules Class-----------------------------------------------------
@@ -45,72 +47,6 @@ public:
     }
 };
 
-
-
-/*
-class Rules{
-
-private:
-    int rule_no;
-    string conclusion;
-
-public:
-
-    Rules()
-    {
-        conclusion = "";
-    }
-
-    string init_variables1(int rule, string var1, string var2, string var3)
-    {
-        switch(rule)
-        {
-            case 10:    if(var1 == "yes" && var2 == "yes" && var3 == "yes")
-                        {
-                            conclusion = "yes";
-                            return conclusion;
-                        }
-                        break;
-
-            case 20:    if(var1 == "yes" && var2 == "yes")
-                        {
-                            conclusion = "yes";
-                            return conclusion;
-                        }
-                        break;
-
-            case 30:    if(var1 == "yes" && var2 == "yes")
-                        {
-                            conclusion = "yes";
-                            return conclusion;
-                        }
-                        break;
-
-            case 40:    if(var1 == "no" && var2 == "yes")
-                        {
-                            conclusion = "yes";
-                            return conclusion;
-                        }
-                        break;
-
-            case 50:    if(var1 == "no" && var2 == "yes" && var3 == "yes")
-                        {
-                            conclusion = "yes";
-                            return conclusion;
-                        }
-                        break;
-
-            case 60:    if(var1 == "yes" && var2 == "yes" && var3 == "no")
-                        {
-                            conclusion = "no";
-                            return conclusion;
-                        }
-                        break;
-        }
-        return "fail";
-    }
-};
-*/
 //----------------------- Conclusion List Class-----------------------------------------------------
 
 class ConclusionList{
@@ -119,10 +55,12 @@ private:
     int rule_number;
     string conclusion_var;
     string varValue;
+    bool status;
 
 public:
     ConclusionList(){
         rule_number = 0;
+        status=0;
     }
 
     void set_rule(int ruleNo, string var){
@@ -133,6 +71,7 @@ public:
     void set_value(string value)
     {
         varValue = value;
+        status = 1;
     }
 
     void print_rule(){
@@ -152,6 +91,16 @@ public:
     int get_rule()
     {
         return rule_number;
+    }
+
+    void set_status()
+    {
+        status = 1;
+    }
+
+    bool get_status()
+    {
+        return status;
     }
 };
 
@@ -234,3 +183,7 @@ public:
 
 };
 
+
+
+
+#endif // DATA_STRUCTURES_H_INCLUDED
