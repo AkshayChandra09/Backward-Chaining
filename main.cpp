@@ -14,10 +14,10 @@ void evaluate_then_part(int rule);
 void check_var_list(string var_to_check);
 void iterate(int);
 
-ConclusionList conc_list[5];
-VariableList var_list[9];
+ConclusionList conc_list[7];
+VariableList var_list[11];
 NewRules rules[4];
-ClauseVarList clause_vars[21];
+ClauseVarList clause_vars[29];
 bool rule_found();
 
 stack<int> cn_stack;
@@ -45,7 +45,7 @@ int main()
     cin>>conclusion;
 
 
-    pos=0;
+    pos=0;  //pos is the index of conc_list
 
         sn = conclusion_search(pos,conclusion);
 
@@ -58,7 +58,7 @@ int main()
         else
             backward_chaining(sn, conclusion);
 
-            while(conc_list[pos].get_conclusion_value()=="" && pos<6){
+            while(conc_list[pos].get_conclusion_value()=="" && pos<7){
                 pos++;sn_stack.pop(); cn_stack.pop();
                 sn = conclusion_search(pos,conclusion);
                 backward_chaining(sn, conclusion);
@@ -72,6 +72,8 @@ int main()
              case 30: con_no = 2; break;
              case 40: con_no = 3; break;
              case 50: con_no = 4; break;
+             case 60: con_no = 5; break;
+             case 70: con_no = 6; break;
         }
         if(conc_list[con_no].get_conclusion_value()!=""){
             cout<<endl<<"********************************************************"<<endl;
@@ -115,7 +117,7 @@ void backward_chaining(int sn, string conclusion)
 
 void check_var_list(string var_to_check)
 {
-    for(int i=0;i<8;i++)
+    for(int i=0;i<11;i++)
     {
         if(var_to_check == var_list[i].getVarName())
         {
@@ -133,7 +135,7 @@ void check_var_list(string var_to_check)
 
 int conclusion_search(int pos, string var)
 {
-    for(int i=pos;i<5;i++)
+    for(int i=pos;i<7;i++)
     {
         if(var == conc_list[i].get_conclusion())
         {
@@ -183,6 +185,19 @@ void evaluate_then_part(int rule)
                         }
                         break;
 
+            case 60:    if(var_list[0].getValue() == "yes" && var_list[1].getValue() == "yes" && var_list[2].getValue() == "no")
+                        {
+                            conc_list[5].set_value("no_lung_cancer");
+                            case_no = 5;
+                        }
+                        break;
+
+             case 70:    if(var_list[8].getValue() == "yes" && var_list[9].getValue() == "yes" && var_list[10].getValue() == "yes")
+                        {
+                            conc_list[6].set_value("cns_lymphonia");
+                            case_no = 6;
+                        }
+                        break;
         }
 }
 
@@ -192,6 +207,7 @@ void evaluate_then_part(int rule)
 void initialize_lists()
 {
     cout<<"Initializing Variable List.."<<endl;
+    //LUNG CANCER
     var_list[0].init(0,"short_breath","");
     var_list[1].init(0,"chronic_cough","");
     var_list[2].init(0,"cough_blood","");
@@ -201,7 +217,30 @@ void initialize_lists()
     var_list[6].init(0,"chest_pain","");
     var_list[7].init(0,"fatigue","");
 
-    for(int i = 0 ; i < 8;i++)
+    //BRAIN CANCER
+    var_list[8].init(0,"head_ache","");
+    var_list[9].init(0,"vision_loss","");
+    var_list[10].init(0,"partial_paralysis","");
+ /*   var_list[12].init(0,"migrain","");
+    var_list[13].init(0,"lack_of_coordination","");
+    var_list[14].init(0,"personality_changes","");
+    var_list[15].init(0,"speech_disorder","");
+    var_list[16].init(0,"depression","");
+    var_list[17].init(0,"hearing_loss","");
+    var_list[18].init(0,"tinnitus",""); */
+
+
+    //var_list[10].init(0,"partial_paralysis","");
+
+
+
+
+
+
+//    var_list[11].init(0,"lack_of_coordination","");
+//    var_list[12].init(0,"personality_changes","");
+
+    for(int i = 0 ; i < 11;i++)
     {
 		var_list[i].printVarList();
 		cout<<endl;
@@ -209,14 +248,21 @@ void initialize_lists()
     cout<<endl;
 
     cout<<"Initializing Conclusion Variable List.."<<endl;
+
+    //Conclusions for Lung Cancer
     conc_list[0].set_rule(10,"wheezing");
     conc_list[1].set_rule(20,"lung_cancer");
     conc_list[2].set_rule(30,"lung_cancer");
     conc_list[3].set_rule(40,"lung_cancer");
     conc_list[4].set_rule(50,"lung_cancer");
+    conc_list[5].set_rule(60,"lung_cancer");
+     //Conclusions for Lung Cancer
+    conc_list[6].set_rule(70,"brain_cancer");
+//    conc_list[7].set_rule(80,"migrain");
+//    conc_list[8].set_rule(90,"brain_cancer");
+//    conc_list[9].set_rule(100,"brain_cancer");
 
-
-    for(int i=0;i<5;i++)
+    for(int i=0;i<7;i++)
     {
         conc_list[i].print_rule();
         cout<<"\n";
@@ -260,7 +306,20 @@ void initialize_lists()
     clause_vars[18].set_vars(18,"achiness_back_shoulder");
     clause_vars[19].set_vars(19,"chest_pain");
     clause_vars[20].set_vars(20,"fatigue");
-    for(int i = 0 ; i < 21;i++)
+    clause_vars[21].set_vars(21,"short_breath");
+    clause_vars[22].set_vars(22,"chronic_cough");
+    clause_vars[23].set_vars(23,"cough_blood");
+    clause_vars[24].set_vars(24,"");
+
+    //brain cancer
+    clause_vars[25].set_vars(25,"head_ache");
+    clause_vars[26].set_vars(26,"vision_loss");
+    clause_vars[27].set_vars(27,"partial_paralysis");
+    clause_vars[28].set_vars(28,"");
+ //   clause_vars[20].set_vars(20,"fatigue");
+
+
+    for(int i = 0 ; i <29;i++)
     {
 		clause_vars[i].print_clause_vars();
 		cout<<endl;
