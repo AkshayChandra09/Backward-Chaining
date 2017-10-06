@@ -143,7 +143,7 @@ int choice;
      }
 
 
-    doti d1(choice);
+    doti d1(choice-4);
     cout<<"con_no is: "<<con_no<<endl;
 
     return 0;
