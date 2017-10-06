@@ -4,6 +4,7 @@
 #include <string>
 #include <string.h>
 #include "data_structures.h"
+#include "forward.cpp"
 
 #define var_list_size 54
 #define clause_list_size 101
@@ -35,11 +36,33 @@ int var_in_clause_list;
 string conclusion;
 int case_no=-1;
 
+
 void backward_chaining(int sn, string conclusion);
 
 //----------------------------- Main ------------------------------------------------
+
+
+
 int main()
 {
+    int con_no;
+
+char answer;
+int choice;
+
+
+ /* do{
+	cout << "\nPlease enter a number for the cancer type "
+                    << " to find the treatment: ";
+        cin >> choice;
+
+	doti d1(choice);
+
+	cout << "\n\n Do you want to check treatment for another cancer (Y/N)?";
+    	cin >> answer;
+
+     }while(answer == 'Y'  || answer == 'y');*/
+
     //initialize variable list, conclusion variable list & clause variable list
     cout<<endl<<"***************************************************************"<<endl;
         initialize_lists();
@@ -79,7 +102,7 @@ int main()
 
 
      while(!sn_stack.empty()){
-        int con_no;
+
         switch(sn_stack.top()){
              case 10: con_no = 0; break;
              case 20: con_no = 1; break;
@@ -113,13 +136,15 @@ int main()
             cout<<"The Conclusion is: "<<endl;
             cout<<"Evaluated Rule: "<<sn_stack.top()<<endl;
             cout<<"Result: "<<conc_list[con_no].get_conclusion()<<" = "<< conc_list[con_no].get_conclusion_value()<<endl;
+            choice = con_no;
         }
 
         sn_stack.pop(); cn_stack.pop();
      }
 
 
-
+    doti d1(choice);
+    cout<<"con_no is: "<<con_no<<endl;
 
     return 0;
 }
@@ -214,7 +239,7 @@ void evaluate_then_part(int rule)
 
             case 50:    if(conc_list[0].get_conclusion_value() == "no" && var_list[5].getValue() == "no" && var_list[6].getValue() == "yes" && var_list[7].getValue() == "yes")
                         {
-                            conc_list[4].set_value("adeno_carcinome");
+                            conc_list[4].set_value("adeno_carcinoma");
                             case_no = 4;
                         }
                         break;
@@ -348,7 +373,7 @@ void evaluate_then_part(int rule)
              case 220:   cout<<"In case 22 "<<endl;
                         if(var_list[38].getValue() == "yes" && var_list[39].getValue() == "yes" && var_list[40].getValue() == "yes" && var_list[41].getValue() == "yes")
                         {
-                            conc_list[21].set_value("enolangio_carcinoma");
+                            conc_list[21].set_value("enalangio_carcinoma");
                             case_no =21;
                         }
                         break;
@@ -386,7 +411,7 @@ void initialize_lists()
 {
     cout<<"Initializing Variable List.."<<endl;
     //LUNG CANCER
-    for(int i=0;i<27;i++){
+    for(int i=0;i<var_list_size;i++){
         var_list[i].init(0,"","");
     }
 
@@ -469,7 +494,7 @@ void initialize_lists()
 
     //Conclusions for Lung Cancer
     conc_list[0].set_rule(10,"wheezing");
-    conc_list[1].set_rule(20,"lung_cancer");
+    conc_list[1].set_rule(20,"lung_cancer");  //large-cell-carninoma
     conc_list[2].set_rule(30,"lung_cancer");
     conc_list[3].set_rule(40,"lung_cancer");
     conc_list[4].set_rule(50,"lung_cancer");
@@ -493,7 +518,7 @@ void initialize_lists()
     conc_list[19].set_rule(200,"brain_cancer");
     conc_list[20].set_rule(210,"brain_cancer");
 
-    conc_list[21].set_rule(220,"liver_cancer_enolangio");
+    conc_list[21].set_rule(220,"liver_cancer_enalangio");
     conc_list[22].set_rule(230,"liver_cancer_hepto");
     conc_list[23].set_rule(240,"liver_cancer_metastasis");
     conc_list[24].set_rule(250,"liver_cancer_angio");
