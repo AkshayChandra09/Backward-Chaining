@@ -2,50 +2,6 @@
 #define DATA_STRUCTURES_H_INCLUDED
 #include <iostream>
 using namespace std;
-//--------------------------- Rules Class-----------------------------------------------------
-
-class NewRules{
-
-private:
-    int rule_no;
-    string if_var1;
-	string if_var1_value;
-	string if_var2;
-	string if_var2_value;
-	string if_var3;
-	string if_var3_value;
-	string then_var;
-	string then_var_value;
-
-public:
-
-    void set_if_part1(int rule, string if1,string if1_val, string if2,string if2_val, string if3, string if3_val)
-    {
-        rule_no = rule;
-        if_var1 = if1; if_var1_value = if1_val;
-        if_var2 = if2; if_var2_value = if2_val;
-        if_var3 = if3; if_var3_value = if3_val;
-    }
-
-     void set_if_part2(int rule, string if1,string if1_val, string if2,string if2_val)
-    {
-        rule_no = rule;
-        if_var1 = if1; if_var1_value = if1_val;
-        if_var2 = if2; if_var2_value = if2_val;
-    }
-
-    void set_then_part(int rule, string th1,string th1_val)
-    {
-        rule_no = rule;
-        then_var = th1; then_var_value = th1_val;
-    }
-
-    void print_rules()
-    {
-        cout<<rule_no<<"\tIF "<<if_var1<<" = "<<if_var1_value<<" "<<if_var2<<" = "<<if_var2_value<<" "<<if_var3<<" = "<<if_var3_value<<endl;
-        cout<<"\tTHEN "<<then_var<<" "<<then_var_value<<endl;
-    }
-};
 
 //----------------------- Conclusion List Class-----------------------------------------------------
 

@@ -3,6 +3,7 @@
 #include<vector>
 #include <string>
 #include <string.h>
+#include <fstream>
 #include "data_structures.h"
 #include "forward.cpp"
 
@@ -22,7 +23,6 @@ void iterate(int);
 
 ConclusionList conc_list[conc_list_size];
 VariableList var_list[var_list_size];
-NewRules rules[4];
 ClauseVarList clause_vars[clause_list_size];
 bool rule_found();
 
@@ -38,7 +38,7 @@ int case_no=-1;
 
 
 void backward_chaining(int sn, string conclusion);
-
+void interface();
 //----------------------------- Main ------------------------------------------------
 
 
@@ -46,35 +46,19 @@ void backward_chaining(int sn, string conclusion);
 int main()
 {
     int con_no;
-
-char answer;
-int choice;
-
-
- /* do{
-	cout << "\nPlease enter a number for the cancer type "
-                    << " to find the treatment: ";
-        cin >> choice;
-
-	doti d1(choice);
-
-	cout << "\n\n Do you want to check treatment for another cancer (Y/N)?";
-    	cin >> answer;
-
-     }while(answer == 'Y'  || answer == 'y');*/
+    char answer;
 
     //initialize variable list, conclusion variable list & clause variable list
-    cout<<endl<<"***************************************************************"<<endl;
-        initialize_lists();
-    cout<<endl<<"***************************************************************"<<endl;
+    initialize_lists();
+    interface();
 
+    do{
 
-
-    cout<<"Please Enter The Conclusion: ";
+    cout<<endl<<"Please Enter The Conclusion: ";
     cin>>conclusion;
 
 
-    pos=0;  //pos is the index of conc_list
+    pos=0;
 
         sn = conclusion_search(pos,conclusion);
         if(sn==-1){
@@ -85,21 +69,17 @@ int choice;
         else
             backward_chaining(sn, conclusion);
 
-          /*for(int i=0;i<conc_list_size;i++){
-             if(conc_list[i].get_rule()==sn){
-                pos = i; break;
-             }
-          }*/
 
-
-        cout<<"pos = "<<pos<<endl;
         while(conc_list[pos].get_conclusion_value()=="" && pos<conc_list_size){
-              pos++;sn_stack.pop(); cn_stack.pop();
-              sn = conclusion_search(pos,conclusion);
-              //if(sn!=-1)    //***check couple of times***
-                 backward_chaining(sn, conclusion);
+            while(!sn_stack.empty()){
+                sn_stack.pop();
+            }
+            pos++;
+            sn = conclusion_search(pos,conclusion);
+            backward_chaining(sn, conclusion);
         }
 
+         cout<<endl<<"******************************** REPORT ****************************"<<endl<<endl;
 
      while(!sn_stack.empty()){
 
@@ -125,26 +105,24 @@ int choice;
              case 190: con_no = 18; break;
              case 200: con_no = 19; break;
              case 210: con_no = 20; break;
-
              case 220: con_no = 21; break;
              case 230: con_no = 22; break;
              case 240: con_no = 23; break;
              case 250: con_no = 24; break;
         }
         if(conc_list[con_no].get_conclusion_value()!=""){
-            cout<<endl<<"********************************************************"<<endl;
-            cout<<"The Conclusion is: "<<endl;
+
+            cout<<endl<<endl<<"The Conclusion is: "<<endl;
             cout<<"Evaluated Rule: "<<sn_stack.top()<<endl;
             cout<<"Result: "<<conc_list[con_no].get_conclusion()<<" = "<< conc_list[con_no].get_conclusion_value()<<endl;
-            choice = con_no;
         }
-
         sn_stack.pop(); cn_stack.pop();
      }
-
-
-    doti d1(choice-4);
-    cout<<"con_no is: "<<con_no<<endl;
+        cout<<endl<<"************************************************************"<<endl;
+    doti d1(con_no);
+    cout<<"Do you want to continue <y/n> : ";
+    cin>>answer;
+    }while(answer=='y' || answer=='Y');
 
     return 0;
 }
@@ -172,6 +150,7 @@ void backward_chaining(int sn, string conclusion)
     }while(var_in_clause_list<5 && clause_vars[cn].get_clause_vars()!="");
 
     evaluate_then_part(sn);
+
 }
 
 void check_var_list(string var_to_check)
@@ -257,32 +236,29 @@ void evaluate_then_part(int rule)
                         }
                         break;
 
-            case 80:    cout<<"In case 7 "<<endl;
-                        if(var_list[8].getValue() == "no" && var_list[12].getValue() == "yes" && var_list[13].getValue() == "yes" && var_list[14].getValue() == "yes")
+            case 80:   if(var_list[8].getValue() == "no" && var_list[12].getValue() == "yes" && var_list[13].getValue() == "yes" && var_list[14].getValue() == "yes")
                         {
                             conc_list[7].set_value("acral_lentigious");
                             case_no = 7;
                         }
                         break;
 
-            case 90:    cout<<"In case 8 "<<endl;
-                        if(var_list[8].getValue() == "no" && var_list[15].getValue() == "yes" && var_list[16].getValue() == "yes")
+            case 90:   if(var_list[8].getValue() == "no" && var_list[15].getValue() == "yes" && var_list[16].getValue() == "yes")
                         {
                             conc_list[8].set_value("lentigo");
                             case_no = 8;
                         }
                         break;
 
-             case 100:    cout<<"In case 10 "<<endl;
-                        if(var_list[8].getValue() == "yes" && var_list[9].getValue() == "no"
+             case 100:  if(var_list[8].getValue() == "yes" && var_list[9].getValue() == "no"
                            && var_list[17].getValue() == "yes" && var_list[18].getValue() == "yes")
                         {
                             conc_list[9].set_value("super_facial_spreading");
                             case_no = 9;
                         }
                         break;
-            case 110:    cout<<"In case 11 "<<endl;
-                        if(var_list[8].getValue() == "no" && var_list[13].getValue() == "no")
+
+            case 110:   if(var_list[8].getValue() == "no" && var_list[13].getValue() == "no")
                         {
                            //&& var_list[17].getValue() == "no" && var_list[18].getValue() == "no");
                             conc_list[10].set_value("no_skin_cancer");
@@ -290,16 +266,14 @@ void evaluate_then_part(int rule)
                         }
                         break;
 
-            case 120:   cout<<"In case 12 "<<endl;
-                        if(var_list[19].getValue() == "yes" && var_list[20].getValue() == "yes" && var_list[21].getValue() == "yes")
+            case 120:   if(var_list[19].getValue() == "yes" && var_list[20].getValue() == "yes" && var_list[21].getValue() == "yes")
                         {
                             conc_list[11].set_value("yes");
                             case_no =11;
                         }else{conc_list[11].set_value("no");}
                         break;
 
-             case 130:   cout<<"In case 13 "<<endl;
-                        if(conc_list[11].get_conclusion_value() == "yes" && var_list[22].getValue() == "yes" && var_list[23].getValue() == "no")
+             case 130:  if(conc_list[11].get_conclusion_value() == "yes" && var_list[22].getValue() == "yes" )
                         {
                             conc_list[12].set_value("acute_myclogenous");
                             case_no =12;
@@ -322,7 +296,7 @@ void evaluate_then_part(int rule)
                         break;
 
              case 160:   cout<<"In case 16 "<<endl;
-                        if(conc_list[11].get_conclusion_value() == "yes" && var_list[22].getValue() == "yes" && var_list[23].getValue() == "yes")
+                        if(conc_list[11].get_conclusion_value() == "yes" && var_list[23].getValue() == "yes" && var_list[24].getValue() == "yes")
                         {
                             conc_list[15].set_value("acute_lymphocytic");
                             case_no =15;
@@ -409,7 +383,7 @@ void evaluate_then_part(int rule)
 
 void initialize_lists()
 {
-    cout<<"Initializing Variable List.."<<endl;
+    //cout<<"Initializing Variable List.."<<endl;
     //LUNG CANCER
     for(int i=0;i<var_list_size;i++){
         var_list[i].init(0,"","");
@@ -439,15 +413,12 @@ void initialize_lists()
     var_list[19].init(0,"swollen_lymph_nodes","");
     var_list[20].init(0,"red_spots_on_skin","");
     var_list[21].init(0,"excess_sweat","");
-
     var_list[22].init(0,"abdomen_swelling","");
     var_list[23].init(0,"joint_pain","");
     var_list[24].init(0,"clotting_problem","");
-
     var_list[25].init(0,"pain_below_ribs","");
     var_list[26].init(0,"easy_bleeding","");
     var_list[27].init(0,"pain_upper_left_abdomen","");
-
 
     var_list[28].init(0,"head_ache","");
     var_list[29].init(0,"vision_loss","");
@@ -476,23 +447,13 @@ void initialize_lists()
     var_list[48].init(0,"confusion","");
     var_list[49].init(0,"","");
 
-     var_list[50].init(0,"lesion_bleeding","");
+    var_list[50].init(0,"lesion_bleeding","");
     var_list[51].init(0,"unhealing_bruise","");
     var_list[52].init(0,"purplish_affected_area","");
     var_list[53].init(0,"","");
 
 
-
-    for(int i = 0; i < var_list_size;i++)
-    {
-		var_list[i].printVarList();
-		cout<<endl;
-	}
-    cout<<endl;
-
-    cout<<"Initializing Conclusion Variable List.."<<endl;
-
-    //Conclusions for Lung Cancer
+    //------------------conclusion variable list------------------------
     conc_list[0].set_rule(10,"wheezing");
     conc_list[1].set_rule(20,"lung_cancer");  //large-cell-carninoma
     conc_list[2].set_rule(30,"lung_cancer");
@@ -507,40 +468,24 @@ void initialize_lists()
     conc_list[10].set_rule(110,"skin_cancer");
 
     conc_list[11].set_rule(120,"leukemia_stage1");
-    conc_list[12].set_rule(130,"blood_cancer_acute");
-    conc_list[13].set_rule(140,"blood_cancer_chronic");
-    conc_list[14].set_rule(150,"blood_cancer_chronic");
-    conc_list[15].set_rule(160,"blood_cancer_acute");
-    conc_list[16].set_rule(170,"no_blood_cancer");
+    conc_list[12].set_rule(130,"blood_cancer");
+    conc_list[13].set_rule(140,"blood_cancer");
+    conc_list[14].set_rule(150,"blood_cancer");
+    conc_list[15].set_rule(160,"blood_cancer");
+    conc_list[16].set_rule(170,"blood_cancer");
 
     conc_list[17].set_rule(180,"brain_cancer");
     conc_list[18].set_rule(190,"brain_cancer");
     conc_list[19].set_rule(200,"brain_cancer");
     conc_list[20].set_rule(210,"brain_cancer");
 
-    conc_list[21].set_rule(220,"liver_cancer_enalangio");
-    conc_list[22].set_rule(230,"liver_cancer_hepto");
-    conc_list[23].set_rule(240,"liver_cancer_metastasis");
-    conc_list[24].set_rule(250,"liver_cancer_angio");
-
-    for(int i=0;i<conc_list_size;i++)
-    {
-        conc_list[i].print_rule();
-        cout<<"\n";
-    }
-
-    cout<<endl<<"Initializing Rules.."<<endl;
-   /* rules[0].set_if_part1(10, "short_breath","yes", "chronic_cough", "yes", "cough_blood", "yes");
-    rules[0].set_then_part(10, "wheezing", "yes");
-    rules[1].set_if_part2(20, "wheezing","yes", "recurrent_pneunomia", "yes");
-    rules[1].set_then_part(20, "lung_cancer", "yes");
-    rules[2].set_if_part2(30, "wheezing","yes", "shoulder_pain", "yes");
-    rules[2].set_then_part(30, "lung_cancer", "yes");
-    rules[3].set_if_part2(40, "wheezing","no", "achiness_back_shoulder", "yes");
-    rules[3].set_then_part(40, "lung_cancer", "yes");*/
+    conc_list[21].set_rule(220,"liver_cancer");
+    conc_list[22].set_rule(230,"liver_cancer");
+    conc_list[23].set_rule(240,"liver_cancer");
+    conc_list[24].set_rule(250,"liver_cancer");
 
 
-    cout<<"Initializing Clause Variables.."<<endl;
+    //-----------clause variable list--------------------
     clause_vars[0].set_vars(0,"");
     clause_vars[1].set_vars(1,"short_breath");
     clause_vars[2].set_vars(2,"chronic_cough");
@@ -592,21 +537,24 @@ void initialize_lists()
     clause_vars[46].set_vars(46,"red_spots_on_skin");
     clause_vars[47].set_vars(47,"excess_sweat");
     clause_vars[48].set_vars(48,"");
+
     clause_vars[49].set_vars(49,"leukemia_stage1");
     clause_vars[50].set_vars(50,"abdomen_swelling");
     clause_vars[51].set_vars(51,"");
     clause_vars[52].set_vars(52,"");
+
     clause_vars[53].set_vars(53,"leukemia_stage1");
     clause_vars[54].set_vars(54,"abdomen_swelling");
     clause_vars[55].set_vars(55,"pain_below_ribs");
     clause_vars[56].set_vars(56,"easy_bleeding");
+
     clause_vars[57].set_vars(57,"leukemia_stage1");
     clause_vars[58].set_vars(58,"abdomen_swelling");
     clause_vars[59].set_vars(59,"pain_below_ribs");
     clause_vars[60].set_vars(60,"pain_upper_left_abdomen");
     clause_vars[61].set_vars(61,"leukemia_stage1");
-    clause_vars[62].set_vars(62,"abdomen_swelling");
-    clause_vars[63].set_vars(63,"joint_pain");
+    clause_vars[62].set_vars(62,"joint_pain");
+    clause_vars[63].set_vars(63,"clotting_problem"); //joint_pain
     clause_vars[64].set_vars(64,"");
     clause_vars[65].set_vars(65,"leukemia_stage1");
     clause_vars[66].set_vars(66,"");
@@ -630,18 +578,14 @@ void initialize_lists()
     clause_vars[83].set_vars(83,"abnormal_wt_gain");
     clause_vars[84].set_vars(84,"speech_disorder");
 
-
-
     clause_vars[85].set_vars(85,"yellow_skin");
     clause_vars[86].set_vars(86,"weight_loss");
     clause_vars[87].set_vars(87,"deep_fatigue");
     clause_vars[88].set_vars(88,"itensively_itchy_skin");
-
     clause_vars[89].set_vars(89,"decreased_apatite");
     clause_vars[90].set_vars(90,"swollen_abdomen");
     clause_vars[91].set_vars(91,"nausea_vomiting");
     clause_vars[92].set_vars(92,"");
-
     clause_vars[93].set_vars(93,"dark_colored_urine");
     clause_vars[94].set_vars(94,"enlarged_liver");
     clause_vars[95].set_vars(95,"confusion");
@@ -652,14 +596,37 @@ void initialize_lists()
     clause_vars[99].set_vars(99,"purplish_affected_area");
     clause_vars[100].set_vars(100,"");
 
+}
+
+void interface(){
+    char user_ip1;
+    string read_rules;
+
+    ifstream fin;
+    fin.open("rules.txt");
 
 
-
-
-    /*for(int i =0; i <53;i++)
-    {
-		clause_vars[i].print_clause_vars();
-		cout<<endl;
-	}*/
-    cout<<endl;
+    cout<<endl<<"***EXPERT SYSTEM FOR SPECIFIC CANCER DETECTION AND TREATMENT RECOMMENDATION***"<<endl<<endl;
+   // cout<<endl<<"***********************************************************************"<<endl<<endl;
+    cout<<endl<<"Course: CS 5346\tARTIFICIAL INTELLIGENCE"<<endl<<endl;
+    cout<<"Group Members: 1.Akshay Chandrachood\t2.SandhyaRani Doti"<<endl<<endl;
+    cout<<"************************************RULES************************************"<<endl<<endl;
+    cout<<"Do you wish to read rules first? <y/n> : ";
+    cin>>user_ip1;
+    if(user_ip1=='Y' || user_ip1=='y'){
+       while(getline(fin,read_rules)){
+            cout<<read_rules<<endl<<endl;
+        }
+    }
+    fin.close();
+    cout<<"******************************************************************************"<<endl<<endl;
+    cout<<"=================================Conclusion List=============================="<<endl<<endl;
+    for(int i=0;i<conc_list_size;i=i+2){
+        conc_list[i].print_rule();
+        cout<<"\t\t\t ";
+        if(i+1<conc_list_size)
+        conc_list[i+1].print_rule();
+        cout<<endl;
+    }
+     cout<<endl<<"========================================================================="<<endl<<endl;
 }
