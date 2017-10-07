@@ -8,7 +8,7 @@ using namespace std;
 
 
 
-class doti{
+class Forward_Chaining{
 
 private:
 
@@ -36,7 +36,7 @@ int choice;
 char answer;
 
 public:
-doti(int);
+Forward_Chaining(int);
 void initialization(void);
 void search(void);
 void check_instantiation(void);
@@ -56,12 +56,12 @@ void getTreatment();
 
 };
 
-doti::doti(int no){
+Forward_Chaining::Forward_Chaining(int no){
 choice = no;
 forward();
 }
 
- void doti:: forward()
+ void Forward_Chaining:: forward()
 {
 
     cout << endl;
@@ -73,7 +73,7 @@ forward();
 
 }
 
-void doti:: initialization(void)
+void Forward_Chaining:: initialization(void)
 {
     fp=1;
     bp=1;
@@ -108,7 +108,7 @@ void doti:: initialization(void)
 }
 
 
-void doti:: instantiate()
+void Forward_Chaining:: instantiate()
 {
     i=1;
 
@@ -128,7 +128,7 @@ void doti:: instantiate()
     }
 }
 
-void doti::getTreatment()
+void Forward_Chaining::getTreatment()
 {
     strcpy(c,"CANCER_TYPE");
     strcpy(cndvar[bp], c);
@@ -586,7 +586,7 @@ void doti::getTreatment()
      }
 }
 
-void doti::check_instantiation(void)
+void Forward_Chaining::check_instantiation(void)
 {
 	i=1;
 
@@ -692,7 +692,7 @@ void doti::check_instantiation(void)
 }
 
 
-void doti::search()
+void Forward_Chaining::search()
 {
    flag = 0;
     sn = f;
@@ -717,7 +717,7 @@ void doti::search()
         sn=0;
 }
 
-void doti::write_file(string treat){
+void Forward_Chaining::write_file(string treat){
     ofstream fout;
     fout.open("data_log.txt",ios::app);
     fout<<"TREATMENT"<<" :\t"<<treat<<endl;

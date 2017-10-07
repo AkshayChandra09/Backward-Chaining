@@ -131,9 +131,9 @@ int main()
         cout<<endl<<"************************************************************"<<endl;
 
     if(con_no==0)
-        doti d1(25);
+        Forward_Chaining d1(25);
     else
-        doti d1(con_no);
+        Forward_Chaining d1(con_no);
 
    /*  while(!sn_stack.empty()){
         sn_stack.pop();
@@ -406,7 +406,7 @@ void initialize_lists()
     var_list[0].init(0,"short_breath","");
     var_list[1].init(0,"chronic_cough","");
     var_list[2].init(0,"cough_blood","");
-    var_list[3].init(0,"recurrent_pneumonia","");
+    var_list[3].init(0,"recurrent_pneunomia","");
     var_list[4].init(0,"shoulder_pain","");
     var_list[5].init(0,"achiness_back_shoulder","");
     var_list[6].init(0,"chest_pain","");
@@ -506,7 +506,7 @@ void initialize_lists()
     clause_vars[3].set_vars(3,"cough_blood");
     clause_vars[4].set_vars(4,"");
     clause_vars[5].set_vars(5,"wheezing");
-    clause_vars[6].set_vars(6,"recurrent_pneumonia");
+    clause_vars[6].set_vars(6,"recurrent_pneunomia");
     clause_vars[7].set_vars(7,"");
     clause_vars[8].set_vars(8,"");
     clause_vars[9].set_vars(9,"wheezing");
