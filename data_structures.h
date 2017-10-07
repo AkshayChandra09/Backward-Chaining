@@ -54,6 +54,11 @@ public:
         status = 1;
     }
 
+    void set_status(int v)
+    {
+        status = v;
+    }
+
     bool get_status()
     {
         return status;

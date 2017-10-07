@@ -16,16 +16,16 @@ const int BLOCK_SIZE = 2;
 
 int flag;
 
-char cndvar[24][19];
-char varlt[25][19],  clvarlt[48][19];
+char cndvar[25][19];
+char varlt[26][19],  clvarlt[50][19];
 char c[20], vp[19], v[19];
 char CANCER_TYPE[30], TREATMENT[50];
-int instlt[25];
+int instlt[26];
 
-#define cndvar_size 24
-#define varlt_size 25
-#define clvarlt_size 48
-#define instlt_size 25
+#define cndvar_size 25
+#define varlt_size 26
+#define clvarlt_size 50
+#define instlt_size 26
 
 int f, i, j, k, s;
 int fp;
@@ -172,7 +172,6 @@ void doti::getTreatment()
                 s=1;
             break;
 
-        //Skin Cancer
         case 5:
             if (strcmp(CANCER_TYPE, "no_lung_cancer") == 0)
                 s=1;
@@ -252,6 +251,11 @@ void doti::getTreatment()
             break;
         case 24:
             if (strcmp(CANCER_TYPE, "angiosarcoma") == 0)
+                s=1;
+            break;
+
+         case 25:
+            if (strcmp(CANCER_TYPE, "wheezing") == 0)
                 s=1;
             break;
 
@@ -554,6 +558,18 @@ void doti::getTreatment()
             instantiate();
             break;
 
+         case 25:
+            strcpy(TREATMENT, "NEBULIZATION");
+
+            cout <<"*      TREATMENT :	" << TREATMENT
+                 << "               *\n";
+            cout <<"********************************************************\n";
+            cout << endl;
+            write_file(TREATMENT);
+            strcpy(v, "TREATMENT");
+            instantiate();
+            break;
+
 
 	}
 
@@ -661,6 +677,8 @@ void doti::check_instantiation(void)
                     case 23:strcpy(CANCER_TYPE, "metastasis");
                         break;
                     case 24:strcpy(CANCER_TYPE, "angiosarcoma");
+                        break;
+                     case 25:strcpy(CANCER_TYPE, "wheezing");
                         break;
 
                     default:
