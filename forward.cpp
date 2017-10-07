@@ -3,6 +3,7 @@
 #include<iostream>
 #include <stdio.h>
 #include <string.h>
+#include <fstream>
 using namespace std;
 
 
@@ -10,6 +11,7 @@ using namespace std;
 class doti{
 
 private:
+
 const int BLOCK_SIZE = 2;
 
 int flag;
@@ -35,7 +37,6 @@ char answer;
 
 public:
 doti(int);
-
 void initialization(void);
 void search(void);
 void check_instantiation(void);
@@ -51,23 +52,22 @@ void getTreatment();
 	 choice = no;
 	}
 
+	void write_file(string);
+
 };
 
 doti::doti(int no){
-
 choice = no;
 forward();
-
 }
 
  void doti:: forward()
 {
+
     cout << endl;
 	cout << endl<<"*******RECOMMENDED TREATMENT FOR DETECTED CANCER*******\n"<<endl;
 
 	initialization();
-
-	cancerListDisplay();
 
 	getTreatment();
 
@@ -263,6 +263,8 @@ void doti::getTreatment()
             goto Find;
         }
 
+        string treat;
+
         switch (sn)
         {
 
@@ -274,6 +276,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -286,6 +289,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -297,6 +301,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -307,6 +312,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -319,6 +325,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -331,6 +338,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -341,6 +349,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -351,6 +360,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -361,6 +371,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -373,6 +384,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -384,6 +396,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -396,6 +409,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -406,6 +420,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -416,6 +431,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -426,6 +442,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -436,6 +453,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -447,6 +465,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -458,6 +477,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -469,6 +489,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -480,6 +501,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -491,6 +513,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -502,6 +525,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -513,6 +537,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -524,6 +549,7 @@ void doti::getTreatment()
                  << "               *\n";
             cout <<"********************************************************\n";
             cout << endl;
+            write_file(TREATMENT);
             strcpy(v, "TREATMENT");
             instantiate();
             break;
@@ -673,31 +699,9 @@ void doti::search()
         sn=0;
 }
 
-
-void doti::cancerListDisplay()
-{
-   /* cout << "\n\n**********************************************************\n";
-    cout << "\n The list of cancer types diagnosed: \n";
-    cout << " 1. Large Cell Neuroma \n";
-    cout << " 2. Squamous Cell Carcinoma \n";
-    cout << " 3. AdenoCarcinoma \n";
-    cout << " 4. Large Cell Carcinoma \n";
-    cout << " 5. Acoustic Neuroma \n";
-    cout << " 6. CNS Lymphoma \n";
-    cout << " 7. Medulloblastoma \n";
-    cout << " 8. Pituitary Tumours \n";
-    cout << " 9. Superficial Spreading \n";
-    cout << " 10. Nodular \n";
-    cout << " 11. Lentigo Maligna \n";
-    cout << " 12. Acral Lentiginous \n";
-    cout << " 13. Acute Mylogenous \n";
-    cout << " 14. Acute Lymphocytic \n";
-    cout << " 15. Chronic Lymphocytic \n";
-    cout << " 16. Chronic myelogenous \n";
-    cout << " 17. enolangio carcinoma \n";
-    cout << " 18. Heptoblastoma \n";
-    cout << " 19. Liver Metastasis \n";
-    cout << " 20. Angiosarcoma \n";
-    cout << "\n\n**********************************************************\n";*/
+void doti::write_file(string treat){
+    ofstream fout;
+    fout.open("data_log.txt",ios::app);
+    fout<<"TREATMENT"<<" :\t"<<treat<<endl;
+    fout<<"___________________________________________________________________________________"<<endl<<endl;
 }
-

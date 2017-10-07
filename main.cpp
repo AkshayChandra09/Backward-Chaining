@@ -39,6 +39,8 @@ int case_no=-1;
 
 void backward_chaining(int sn, string conclusion);
 void interface();
+void write_file();
+
 //----------------------------- Main ------------------------------------------------
 
 
@@ -48,9 +50,15 @@ int main()
     int con_no;
     char answer;
 
+    write_file();
+
     //initialize variable list, conclusion variable list & clause variable list
     initialize_lists();
     interface();
+
+    ofstream fout;
+    fout.open("data_log.txt", ios::app);
+
 
     do{
 
@@ -115,6 +123,7 @@ int main()
             cout<<endl<<endl<<"The Conclusion is: "<<endl;
             cout<<"Evaluated Rule: "<<sn_stack.top()<<endl;
             cout<<"Result: "<<conc_list[con_no].get_conclusion()<<" = "<< conc_list[con_no].get_conclusion_value()<<endl;
+            fout<<"Result: "<<conc_list[con_no].get_conclusion()<<" = "<< conc_list[con_no].get_conclusion_value()<<endl;
         }
         sn_stack.pop(); cn_stack.pop();
      }
@@ -607,6 +616,7 @@ void interface(){
 
 
     cout<<endl<<"***EXPERT SYSTEM FOR SPECIFIC CANCER DETECTION AND TREATMENT RECOMMENDATION***"<<endl<<endl;
+
    // cout<<endl<<"***********************************************************************"<<endl<<endl;
     cout<<endl<<"Course: CS 5346\tARTIFICIAL INTELLIGENCE"<<endl<<endl;
     cout<<"Group Members: 1.Akshay Chandrachood\t2.SandhyaRani Doti"<<endl<<endl;
@@ -629,4 +639,13 @@ void interface(){
         cout<<endl;
     }
      cout<<endl<<"========================================================================="<<endl<<endl;
+}
+
+void write_file(){
+    ofstream fout;
+    fout.open("data_log.txt");
+    fout<<endl<<"***EXPERT SYSTEM FOR SPECIFIC CANCER DETECTION AND TREATMENT RECOMMENDATION***"<<endl<<endl;
+    fout<<endl<<"Course: CS 5346\tARTIFICIAL INTELLIGENCE"<<endl<<endl;
+    fout<<"Group Members: 1.Akshay Chandrachood\t2.SandhyaRani Doti"<<endl<<endl;
+    fout<<"___________________________________________________________________________________"<<endl<<endl;
 }
