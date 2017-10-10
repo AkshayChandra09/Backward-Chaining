@@ -1,0 +1,66 @@
+
+*******************************LUNG CANCER**************************************
+1) IF shortness of breath = yes AND cronic cough = yes AND cough of blood = yes 
+	THEN wheezing = yes
+2) If wheezing == yes and Recurrent_pneumonia == yes
+	THEN lung_cancer == large_cell_neuroma 
+3)  If wheezing == yes and shouder_pain == yes
+	 THEN lung_cancer =  squanors_cell_carcinoma 
+4) If wheezing == yes and achiness_in_back_shoulder == yes
+	THEN  lung_cancer =  large_cell_carcinoma 
+5) If wheezing == no and achinees_in_back_shoulder == no and chest_pain == yes and fatigue == yes 	THEN lung_cancer = adeno_carcinoma
+6) If short_of_breath == yes and chronic_cough = yes and cough_of_blood = no
+ 	THEN lung_cancer = No_lung_cancer 
+
+*******************************SKIN CANCER**************************************
+
+7) If itching == yes and affected_area_head == yes and done_shaped_lump == yes and bleeding == yes
+	THEN skin_cancer = nodular
+8) If itching == no and affected_area_nails == yes and border_irregularity == yes and assymetry == yes
+	THEN skin_cancer = acral_lentigious
+9)  If itching == no and moles ==  yes and affected_area_face ==  yes and mole_si6mm == yes
+	THEN skin_cancer = lentigo 
+10)  If itching == yes  and affected_area_head ==  no and moles_spread_beyond_border == yes and variable_pigmentation == yes 
+	THEN  skin_cancer == super_facial_spreading 
+11)  If itching == yes  and affected_area_nails = no 
+	THEN skin_cancer = no_skin_cancer 
+
+*******************************BLOOD CANCER************************************
+
+12) If swollen_lymph_nodes == yes and red_spots == yes and excess_sweat == yes
+	 THEN blood_ cancer = leukamia_stage1 
+13)  If leukamia_stage1 == yes and swelling_abdomen == yes
+	THEN blood_cancer = acute_my_clog
+14) If leukamia_stage1 = yes and swelling_abdomen = no and pain_in_below_ribs = yes and  easy_bleeding = yes 
+	THEN blood_cancer = chronic_myclog 
+15) If leukamia_stage1 = yes and swelling_abdomen = no and pain_below_ribs = no and pain_in_upper_left_abdomen = yes
+	 THEN blood_cancer = chronic_lymph 
+16 ) If  leukamia_stage1 = yes and clotting_problem = yes and joint_pain = yes 
+	THEN blood_cancer = acute_lymph 
+17) If swollen_lymph_nodes = no and red_spots = no 
+	THEN blood_cancer = no_blood_cancer
+
+*******************************BRAIN CANCER************************************
+
+18) If headache == yes and vision_loss == no and hearing_loss == yes and tinnitus == yes
+	THEN brain_cancer = acoustic_carcinoma
+19) If headache == yes and vision_loss == yes and partial_paralysis == yes
+	THEN brain_cancer = cns_lymphonia
+20) If headache == yes and lack_of_coordination == yes and personality_changes == yes
+	THEN brain_cancer = medulloblastoma
+21) If headache == yes and speech_disorder == no and depression == yes and abnormal_wt_gain == yes 
+	THEN brain_cancer = pituitary _tumor 
+
+*******************************LIVER CANCER************************************
+
+22) If yellow_skin == yes and unintended_wt_loss == yes and fatigue == yes and 	intensity_itching_skin == yes
+	 THEN liver_cancer = enalangio_carcinoma 
+23) If decreased_appetite == yes and swollen_abdomen == yes and nausea == yes
+	THEN liver_cancer = hepatoblastoma
+24) If dark_colored_urine == yes and enlarged_liver == yes and confusion == yes and pian_in_upperright_abdomen == yes  
+	THEN liver_cancer == metastasis 
+25) If lesion_bleeding == yes and unhealing_bruise == yes and purplish_effected_area == yes
+	 THEN liver_cancer = angiosarcoma  
+
+
+
