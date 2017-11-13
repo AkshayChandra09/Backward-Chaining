@@ -5,7 +5,7 @@
 #include <string.h>
 #include <fstream>
 #include "data_structures.h"
-#include "forward.cpp"
+#include "forward.h"
 
 #define var_list_size 54
 #define clause_list_size 101

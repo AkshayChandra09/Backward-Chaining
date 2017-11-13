@@ -1,5 +1,5 @@
-#ifndef DATA_STRUCTURES_H_INCLUDED
-#define DATA_STRUCTURES_H_INCLUDED
+#ifndef FORWARD_H_INCLUDED
+#define FORWARD_H_INCLUDED
 #include <iostream>
 using namespace std;
 
@@ -147,4 +147,4 @@ public:
 
 
 
-#endif // DATA_STRUCTURES_H_INCLUDED
+#endif // Project1_A04742395_H_INCLUDED
